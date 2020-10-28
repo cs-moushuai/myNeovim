@@ -1,0 +1,144 @@
+*myVimHelp.txt*	For Vim version 7.3	Last change: 2020 September 12
+:noh取消高亮(搜索后的)
+<Leader>m 菜单
+<Leader>h 帮助(可修改)
+<Leader>H 帮助
+<Leader>t 翻译在命令行
+<Leader>w 翻译带弹窗
+<Leader>r 翻译并替换
+#<Leader>x 翻译到剪切板
+<Leader>T 新建标签
+<Leader>f ranger打开文件
+<Leader>R source ~/.vimrc
+<Leader>e 打开.vimrc
+======================================
+<c-p> 文件搜索
+<Leader>M 历史打开过的文件
+<Leader>b Buffer
+<Leader>F 函数搜索（仅当前文件里）
+<Leader>rg 模糊搜索，很强大的功能，迅速秒搜
+======================================
+
+gt 下一个标签
+gT 上一个标签
+n+gt 到n个标签
+======================================
+;e 切换显示文件浏览
+;a 查找到当前文件位置
+x 在浏览器打开文件夹
+h 关闭文件夹
+j 上移
+k 下移
+l 文件夹则展开，文件则打开
+o 文件夹则展开，文件则打开
+I split 分屏打开
+m 移动
+c 拷贝
+p 粘贴 移动或拷贝的
+r 重命名
+. 隐藏文件
+shift-k 在当前光标下新建文件夹
+shift-n 在当前光标下新建文件
+shift_c 切换样式
+d 删除光标所在的文件或文件夹
+yy 输出当前光标所在的路径
+======================================
+<F4>函数列表
+<F8>打开命令提示
+<F9>编译运行cpp,c,sh语言
+<F11>全屏
+<C-S-i> 格式化代码
+
+<C-]> 跳转
+<C-o> <c-t> 返回
+<C-s> 保存
+
+折叠
+zf 创建折叠
+zd 删除折叠
+zD recursion delet fold
+zc 关闭折叠
+zo 打开折叠
+za 自动打开关闭折叠
+<leader><space> za
+zE delete all fold
+
+标签
+ma/b/c 标记
+'a/b/c 到对应标记行
+`a/b/c 到对应标签位置
+:marks 列出所有标记
+:delmarks  删除指定标记
+:delmarks! 删除所有标记
+
+终端
+<M-=> 打开/关闭
+<M-S-h> 移到左侧窗口
+<M-S-j> 移到下侧窗口
+<M-S-k> 移到上侧窗口
+<M-S-l> 移到右侧窗口
+<M--> register 0 paste
+<M-q> normal模式切换      <c-\><c-n> 终端normal
+
+'n'+'C-w'+'+' 纵向加行数
+'n'+'C-w'+'-' 纵向减行数
+'n'+'C-w'+'>' 横向加行数
+'n'+'C-w'+'<' 横向减行数
+
+git icons
+'Modified'  : '✹'
+'Staged'    : '✚'
+'Untracked' : '✭'
+'Renamed'   : '➜'
+'Unmerged'  : '═'
+'Ignored'   : '☒'
+'Deleted'   : '✖'
+'Unknown'   : '?'
+
+debug
+<leader>5 Continue()
+<leader>3 Stop()
+<leader>4 Restart()
+<leader>6 Pause()
+<leader>9 ToggleBreakpoint()
+<leader>7 ToggleBreakpoint( {trigger expr,hit count expr } )
+<leader>8 AddFunctionBreakpoint( '<cexpr' )
+<leader>0 StepOver()
+<leader>1 StepInto()
+<leader>2 StepOut()
+<leader>- 生成a.out
+<leader>= 拷贝.vimspector.json到当前目录
+
+<leader>cc   加注释
+<leader>cu   解开注释
+<leader>c<space>  加上/解开注释, 智能判断
+<leader>cy   先复制, 再注解(p可以进行黏贴)
+
+<C-d> insert mode 删除一行
+<leader>q :q
+<leader>Q :qa
+<leader>wq :wq
+<leader>wQ :wqa
+<leader>ww :w !sudo tee %强制sudo保存
+<leader>qc :tabclose
+:g/^$/d删除空行
+:%s/\r$// 删除(c-v c-m)
+:%s///g
+
+set mouse= 关闭鼠标
+set mouse=a 所有模式
+set mouse=n 普通
+set mouse =i 插入
+set mouse=v 可视化
+
+:checkhealth 检查vim状态
+"設定跳轉的快捷鍵，可以跳轉到definition和declaration
+<leader>gc  跳转到声明
+<leader>gf  跳转到定义
+<leader>gg  跳转到声明或定义
+"nmap <F4> :YcmDiags<CR>
+<M-p> 开启关闭auto-pairs
+<M-n> 到第n个标签
+
+
+ vim:tw=78:ts=8:noet:ft=help:norl:
