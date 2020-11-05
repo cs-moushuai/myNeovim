@@ -826,6 +826,7 @@ Plug 'whatyouhide/vim-gotham'
 Plug 'mhartington/oceanic-next'
 Plug 'romainl/flattened'
 Plug 'cocopon/iceberg.vim'
+"Plug 'flazz/vim-colorschemes'
 "Plug 'chriskempson/base16-vim'
 Plug 'altercation/solarized'
 "translator
@@ -854,6 +855,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'skywind3000/vim-terminal-help'
 "c++ highlight
 Plug 'octol/vim-cpp-enhanced-highlight'
+"Plug 'jackguo380/vim-lsp-cxx-highlight'
 "参数底行提示
 Plug 'Shougo/echodoc.vim'
 call plug#end()
@@ -881,3 +883,4 @@ call defx#custom#option('_', {
             \ 'ignored_files':
             \     '.*'
             \ })
+
