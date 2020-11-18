@@ -1,6 +1,6 @@
 "~/.vimrc
 "vim config file
-"date 2018-12-26
+"date 2020-11-18
 "Created by bert
 "blog:https://blog.51cto.com/zpf666
 """""""""""""""""""""""""""""""""""
@@ -53,11 +53,11 @@ set guifont=Courier_New:h10:cANSI
 
 let g:solarized_termcolors=256
 "设置颜色"
-"colorscheme molokai
+colorscheme molokai
 "colorscheme gruvbox
 "colorscheme solarized
 "colorscheme OceanicNext
-colorscheme flattened_dark
+"colorscheme flattened_dark
 "高亮显示当前行"
 set cursorline
 hi cursorline guibg=#00ff00
@@ -187,9 +187,14 @@ set scrolloff=3
 set hlsearch
 set incsearch
 
+nnoremap <silent> <leader>l :nohlsearch<CR>
+
 "搜索时不区分大小写"
 "还可以使用简写（“:set ic”和“:set noic”）"
 set ignorecase
+"智能识别小写时不区分大小写,大写时区分
+"必须要在ignorecase开的情况下才有用
+set smartcase
 
 "用浅色高亮显示当前行"
 autocmd InsertLeave * se nocul
@@ -387,6 +392,7 @@ nnoremap <silent> <F9> :call Compile()<cr>
 "nnoremap <silent> <F10> :AsyncRun -raw -cwd=$(VIM_FILEDIR) "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <cr>
 
 function! Compile()
+    :w
     if expand("%:e") == "cpp"
         AsyncRun g++ -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" && $(VIM_FILEDIR)/$(VIM_FILENOEXT) 
     elseif expand("%:e") == "c"
@@ -541,8 +547,8 @@ nmap <leader>H :help myVimHelp.txt<CR>
 map <C-s> :w<CR>
 nmap <leader>T :tabnew<CR>
 
-"C-S-i自动格式化代码
-noremap <C-S-i> :Autoformat<CR>
+"C-M-i自动格式化代码
+noremap <C-M-i> :Autoformat<CR>
 "let g:autoformat_verbosemode=1
 "我比较喜欢 google 风格的代码
 "let g:formatdef_clangformat_google = '"clang-format -style=Google"'
@@ -641,7 +647,7 @@ nmap <leader>e :tabnew ~world/.vimrc<CR>
 nmap <leader>R :source $MYVIMRC<CR>
 
 " 使用 ;e 切换显示文件浏览，使用 ;a 查找到当前文件位置
-let g:maplocalleader=';'
+let g:maplocalleader='\'
 nnoremap <silent> <LocalLeader>e
             \ :<C-u>Defx -resume -toggle -buffer-name=tab`tabpagenr()` <CR>
 nnoremap <silent> <LocalLeader>a
@@ -789,6 +795,10 @@ inoremap <silent><m-8> <ESC>:tabn 8<cr>
 inoremap <silent><m-9> <ESC>:tabn 9<cr>
 inoremap <silent><m-0> <ESC>:tabn 10<cr>
 
+"runtime macros/matchit.vim
+"添加路径方便gf文件
+set path+=/usr/include/c++/10.2.0
+
 call plug#begin('~/.vim/plugged')
 "Fuzzy file
 "Plug 'kien/ctrlp.vim'
@@ -854,10 +864,14 @@ Plug 'tpope/vim-fugitive'
 "terminal
 Plug 'skywind3000/vim-terminal-help'
 "c++ highlight
-Plug 'octol/vim-cpp-enhanced-highlight'
+"Plug 'octol/vim-cpp-enhanced-highlight'
 "Plug 'jackguo380/vim-lsp-cxx-highlight'
 "参数底行提示
 Plug 'Shougo/echodoc.vim'
+"[b,b],[a,a]等快捷操作
+Plug 'tpope/vim-unimpaired'
+"括号快速改变
+Plug 'tpope/vim-surround'
 call plug#end()
 
 
