@@ -51,6 +51,8 @@ yy 输出当前光标所在的路径
 
 <C-]> 跳转
 <C-o> <c-t> 返回
+<c-o> forward
+<c-i> back
 <C-s> 保存
 
 折叠
@@ -136,6 +138,7 @@ set mouse=v 可视化
 <leader>gc  跳转到声明
 <leader>gf  跳转到定义
 <leader>gg  跳转到声明或定义
+<leader>gv 显示变量类型
 "nmap <F4> :YcmDiags<CR>
 <M-p> 开启关闭auto-pairs
 <M-n> 到第n个标签
@@ -150,5 +153,6 @@ cs}'把已经有的{}修改为'', 不需要选中
 ds" 删除""
 
 <leader>l 取消搜索高亮
+
 
  vim:tw=78:ts=8:noet:ft=help:norl:

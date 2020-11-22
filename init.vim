@@ -449,6 +449,7 @@ let g:ycm_global_ycm_extra_conf = '~/.vim/plugged/youcompleteme/cpp/ycm/.ycm_ext
 nnoremap <leader>gc :YcmCompleter GoToDeclaration<CR>
 nnoremap <leader>gf :YcmCompleter GoToDefinition<CR>
 nnoremap <leader>gg :YcmCompleter GoToDefinitionElseDeclaration<CR>
+nnoremap <silent> <leader>gv :YcmCompleter GetType<cr>
 "nmap <F4> :YcmDiags<CR>
 let g:ycm_add_preview_to_completeopt = 0
 let g:ycm_show_diagnostics_ui = 0
@@ -508,6 +509,7 @@ nnoremap <leader>= :!cp ~world/Desktop/.vimspector.json %:h<cr><cr>
 function! Menu()
     :exec "tabnew | Startify"
 endfunction
+
 map <silent> <Leader>m :call Menu()<CR>
 
 """ Configuration example
@@ -640,7 +642,7 @@ set tabline=%!MyTabLine()
 
 
 "rainbow
-au FileType c,cpp,objc,objcpp call rainbow#load()
+"au FileType c,cpp,objc,objcpp call rainbow#load()
 let g:rainbow_active = 1
 
 nmap <leader>e :tabnew ~world/.vimrc<CR>
@@ -795,6 +797,7 @@ inoremap <silent><m-8> <ESC>:tabn 8<cr>
 inoremap <silent><m-9> <ESC>:tabn 9<cr>
 inoremap <silent><m-0> <ESC>:tabn 10<cr>
 
+let i=2
 "runtime macros/matchit.vim
 "添加路径方便gf文件
 set path+=/usr/include/c++/10.2.0
@@ -855,7 +858,7 @@ Plug 'kristijanhusak/defx-icons'
 "format code
 Plug 'Chiel92/vim-autoformat'
 "color bracket
-Plug 'frazrepo/vim-rainbow'
+Plug 'luochen1990/rainbow'
 "look file
 Plug 'francoiscabrol/ranger.vim'
 Plug 'rbgrouleff/bclose.vim'
@@ -864,7 +867,7 @@ Plug 'tpope/vim-fugitive'
 "terminal
 Plug 'skywind3000/vim-terminal-help'
 "c++ highlight
-"Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'octol/vim-cpp-enhanced-highlight'
 "Plug 'jackguo380/vim-lsp-cxx-highlight'
 "参数底行提示
 Plug 'Shougo/echodoc.vim'
