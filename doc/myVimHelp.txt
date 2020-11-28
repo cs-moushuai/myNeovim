@@ -139,6 +139,7 @@ set mouse=v 可视化
 <leader>gf  跳转到定义
 <leader>gg  跳转到声明或定义
 <leader>gv 显示变量类型
+<leader>gh 显示相关文献
 "nmap <F4> :YcmDiags<CR>
 <M-p> 开启关闭auto-pairs
 <M-n> 到第n个标签

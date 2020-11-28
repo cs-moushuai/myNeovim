@@ -1,6 +1,6 @@
 "~/.vimrc
 "vim config file
-"date 2020-11-18
+"date 2020-11-27
 "Created by bert
 "blog:https://blog.51cto.com/zpf666
 """""""""""""""""""""""""""""""""""
@@ -53,11 +53,12 @@ set guifont=Courier_New:h10:cANSI
 
 let g:solarized_termcolors=256
 "设置颜色"
-colorscheme molokai
+"colorscheme molokai
 "colorscheme gruvbox
 "colorscheme solarized
 "colorscheme OceanicNext
 "colorscheme flattened_dark
+colorscheme industry
 "高亮显示当前行"
 set cursorline
 hi cursorline guibg=#00ff00
@@ -394,9 +395,9 @@ nnoremap <silent> <F9> :call Compile()<cr>
 function! Compile()
     :w
     if expand("%:e") == "cpp"
-        AsyncRun g++ -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" && $(VIM_FILEDIR)/$(VIM_FILENOEXT) 
+        AsyncRun g++ -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" && $(VIM_FILEDIR)/$(VIM_FILENOEXT)
     elseif expand("%:e") == "c"
-        AsyncRun gcc -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" && $(VIM_FILEDIR)/$(VIM_FILENOEXT) 
+        AsyncRun gcc -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" && $(VIM_FILEDIR)/$(VIM_FILENOEXT)
     elseif expand("%:e") == "sh"
         AsyncRun bash "$(VIM_FILEPATH)"
     endif
@@ -450,6 +451,7 @@ nnoremap <leader>gc :YcmCompleter GoToDeclaration<CR>
 nnoremap <leader>gf :YcmCompleter GoToDefinition<CR>
 nnoremap <leader>gg :YcmCompleter GoToDefinitionElseDeclaration<CR>
 nnoremap <silent> <leader>gv :YcmCompleter GetType<cr>
+nnoremap <silent> <leader>gh :YcmCompleter GetDoc<cr>
 "nmap <F4> :YcmDiags<CR>
 let g:ycm_add_preview_to_completeopt = 0
 let g:ycm_show_diagnostics_ui = 0
@@ -802,6 +804,17 @@ let i=2
 "添加路径方便gf文件
 set path+=/usr/include/c++/10.2.0
 
+"多光标插件设置
+let g:VM_maps = {}
+let g:VM_maps['Find Under']         = '<C-l>'           " replace C-n
+let g:VM_maps['Find Subword Under'] = '<C-l>'           " replace visual C-n
+let g:VM_mouse_mappings    = 1
+let g:VM_theme             = 'iceblue'
+
+let g:VM_maps = {}
+let g:VM_maps["Undo"]      = 'u'
+let g:VM_maps["Redo"]      = '<C-r>'
+
 call plug#begin('~/.vim/plugged')
 "Fuzzy file
 "Plug 'kien/ctrlp.vim'
@@ -875,6 +888,8 @@ Plug 'Shougo/echodoc.vim'
 Plug 'tpope/vim-unimpaired'
 "括号快速改变
 Plug 'tpope/vim-surround'
+"多光标
+Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 call plug#end()
 
 
