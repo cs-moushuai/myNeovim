@@ -4,10 +4,10 @@
 <Leader>h 帮助(可修改)
 <Leader>H 帮助
 <Leader>t 翻译在命令行
-<Leader>w 翻译带弹窗
+<Leader>T 翻译带弹窗
 <Leader>r 翻译并替换
-#<Leader>x 翻译到剪切板
-<Leader>T 新建标签
+/*<Leader>x 翻译到剪切板*/
+/*<Leader>T 新建标签*/
 <Leader>f ranger打开文件
 <Leader>R source ~/.vimrc
 <Leader>e 打开.vimrc
@@ -62,7 +62,7 @@ zD recursion delet fold
 zc 关闭折叠
 zo 打开折叠
 za 自动打开关闭折叠
-<leader><space> za
+/*<leader><space> za*/
 zE delete all fold
 
 标签
@@ -119,10 +119,10 @@ debug
 <C-d> insert mode 删除一行
 <leader>q :q
 <leader>Q :qa
-<leader>wq :wq
-<leader>wQ :wqa
-<leader>ww :w !sudo tee % > /dev/null 强制sudo保存
-<leader>qc :tabclose
+/*<leader>wq :wq*/
+/*<leader>wQ :wqa*/
+/*<leader>ww :w !sudo tee % > /dev/null 强制sudo保存*/
+/*<leader>qc :tabclose*/
 :g/^$/d删除空行
 :%s/\r$// 删除(c-v c-m)
 :%s///g
@@ -140,6 +140,8 @@ set mouse=v 可视化
 <leader>gg  跳转到声明或定义
 <leader>gv 显示变量类型
 <leader>gh 显示相关文献
+:YcmCompleter RefactorRename <new_name>  改变变量名称
+
 "nmap <F4> :YcmDiags<CR>
 <M-p> 开启关闭auto-pairs
 <M-n> 到第n个标签
@@ -154,6 +156,9 @@ cs}'把已经有的{}修改为'', 不需要选中
 ds" 删除""
 
 <leader>l 取消搜索高亮
+<leader><leader>w\e\ge\b 使用vim-easymotion插件的功能
+
+snippet功能请去看相关文档
 
 
  vim:tw=78:ts=8:noet:ft=help:norl:

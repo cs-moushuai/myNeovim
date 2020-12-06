@@ -56,9 +56,10 @@ let g:solarized_termcolors=256
 "colorscheme molokai
 "colorscheme gruvbox
 "colorscheme solarized
-"colorscheme OceanicNext
+colorscheme OceanicNext
 "colorscheme flattened_dark
-colorscheme industry
+"colorscheme industry
+"colorscheme pablo
 "高亮显示当前行"
 set cursorline
 hi cursorline guibg=#00ff00
@@ -284,7 +285,7 @@ highlight Search ctermbg=black ctermfg=white guifg=white guibg=black
 """=>在shell脚本开头自动增加解释器以及作者等版权信息<="""
 """"""""""""""""""""""""""""""""
 "新建.py,.cc,.sh,.java文件，自动插入文件头"
-autocmd BufNewFile *.sh,*.cpp,*c exec ":call SetTitle()"
+autocmd BufNewFile *.sh,*.cpp,*c,*.py exec "call SetTitle()"
 "定义函数SetTitle，自动插入文件头"
 func! SetTitle()
     if expand ("%:e") == 'cpp'
@@ -315,6 +316,9 @@ func! SetTitle()
         call setline(4, "#Name:".expand("%"))
         call setline(5, "#Version:V1.0")
         call setline(6, "#Description:This is a production script.")
+    endif
+    if expand ("%:e") == 'py'
+        call setline(1, "#!/usr/bin/python3")
     endif
 
 endfunc
@@ -393,13 +397,15 @@ nnoremap <silent> <F9> :call Compile()<cr>
 "nnoremap <silent> <F10> :AsyncRun -raw -cwd=$(VIM_FILEDIR) "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <cr>
 
 function! Compile()
-    :w
+    exec "w"
     if expand("%:e") == "cpp"
         AsyncRun g++ -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" && $(VIM_FILEDIR)/$(VIM_FILENOEXT)
     elseif expand("%:e") == "c"
         AsyncRun gcc -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" && $(VIM_FILEDIR)/$(VIM_FILENOEXT)
     elseif expand("%:e") == "sh"
         AsyncRun bash "$(VIM_FILEPATH)"
+    elseif expand("%:e") == "py"
+        AsyncRun time python3 "$(VIM_FILEPATH)"
     endif
 
 endfunction
@@ -475,6 +481,7 @@ let g:ycm_filetype_whitelist = {
             \ "sh":1,
             \ "zsh":1,
             \ "zimbu":1,
+            \ "python":1,
             \ }
 set noshowmode
 
@@ -519,8 +526,8 @@ map <silent> <Leader>m :call Menu()<CR>
 nmap <silent> <Leader>t <Plug>Translate
 vmap <silent> <Leader>t <Plug>TranslateV
 " Display translation in a window
-nmap <silent> <Leader>w <Plug>TranslateW
-vmap <silent> <Leader>w <Plug>TranslateWV
+nmap <silent> <Leader>T <Plug>TranslateW
+vmap <silent> <Leader>T <Plug>TranslateWV
 " Replace the text with translation
 nmap <silent> <Leader>r <Plug>TranslateR
 vmap <silent> <Leader>r <Plug>TranslateRV
@@ -549,7 +556,7 @@ hi def link TranslatorBorderNF          NormalFloat
 nmap <leader>h :tabnew ~world/.vim/doc/myVimHelp.txt<CR>
 nmap <leader>H :help myVimHelp.txt<CR>
 map <C-s> :w<CR>
-nmap <leader>T :tabnew<CR>
+"nmap <leader>T :tabnew<CR>
 
 "C-M-i自动格式化代码
 noremap <C-M-i> :Autoformat<CR>
@@ -557,6 +564,7 @@ noremap <C-M-i> :Autoformat<CR>
 "我比较喜欢 google 风格的代码
 "let g:formatdef_clangformat_google = '"clang-format -style=Google"'
 "let g:formatters_c = ['clangformat_google']
+"autocmd FileType python,cpp let g:autoformatpython_enabled = 1
 let g:formatdef_allman = '"astyle --style=allman --pad-oper"'
 let g:formatters_cpp = ['allman']
 let g:formatters_c = ['allman']
@@ -758,10 +766,10 @@ set relativenumber
 inoremap <c-d> <esc>ddi
 nnoremap <leader>q :q<cr>
 nnoremap <leader>Q :qa<cr>
-nnoremap <leader>wq :wq<cr>
-nnoremap <leader>wQ :wqa<cr>
-nnoremap <leader>ww :w !sudo tee %<cr>
-nnoremap <leader>qc :tabclose<cr>
+"nnoremap <leader>wq :wq<cr>
+"nnoremap <leader>wQ :wqa<cr>
+"nnoremap <leader>ww :w !sudo tee % > /dev/null<cr>
+"nnoremap <leader>qc :tabclose<cr>
 
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
@@ -771,7 +779,7 @@ if (has("termguicolors"))
 endif
 
 inoremap <c-s> <esc>:w<cr>a
-nnoremap <leader><space> za
+"nnoremap <leader><space> za
 
 "echodoc底行显示参数
 let g:echodoc_enable_at_startup = 1
@@ -815,6 +823,52 @@ let g:VM_maps = {}
 let g:VM_maps["Undo"]      = 'u'
 let g:VM_maps["Redo"]      = '<C-r>'
 
+function! g:UltiSnips_Complete()
+    call UltiSnips#ExpandSnippet()
+    if g:ulti_expand_res == 0
+        if pumvisible()
+            return "\<C-n>"
+        else
+            call UltiSnips#JumpForwards()
+            if g:ulti_jump_forwards_res == 0
+                return "\<TAB>"
+            endif
+        endif
+    endif
+    return ""
+endfunction
+
+function! g:UltiSnips_Reverse()
+    call UltiSnips#JumpBackwards()
+    if g:ulti_jump_backwards_res == 0
+        return "\<C-P>"
+    endif
+
+    return ""
+endfunction
+
+
+if !exists("g:UltiSnipsJumpForwardTrigger")
+    let g:UltiSnipsJumpForwardTrigger = "<tab>"
+endif
+if !exists("g:UltiSnipsJumpBackwardTrigger")
+    let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+endif
+au InsertEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger     . " <C-R>=g:UltiSnips_Complete()<cr>"
+au InsertEnter * exec "inoremap <silent> " .     g:UltiSnipsJumpBackwardTrigger . " <C-R>=g:UltiSnips_Reverse()<cr>"
+" make YCM compatible with UltiSnips (using supertab)
+"let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+"let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+"let g:SuperTabDefaultCompletionType = '<C-n>'
+
+" better key bindings for UltiSnipsExpandTrigger
+"let g:UltiSnipsSnippetDirectories = ['~/.vim/UltiSnips', 'UltiSnips']
+"let g:UltiSnipsExpandTrigger = "<tab>"
+"let g:UltiSnipsJumpForwardTrigger = "<tab>"
+"let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+" If you want :UltiSnipsEdit to split your window.
+"let g:UltiSnipsEditSplit="vertical"
+
 call plug#begin('~/.vim/plugged')
 "Fuzzy file
 "Plug 'kien/ctrlp.vim'
@@ -827,7 +881,8 @@ Plug 'mhinz/vim-startify'
 "bleam in for, if ...
 Plug 'yggdroot/indentline'
 "completor
-Plug 'https://gitee.com/mirrors/youcompleteme'
+Plug 'https://gitee.com/mirrors/youcompleteme', { 'do': './install.py --clang-completer --system-libclang' }
+"Plug 'Valloric/YouCompleteMe'
 "Plug 'valloric/youcompleteme'
 "outline
 Plug 'majutsushi/tagbar'
@@ -890,6 +945,13 @@ Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-surround'
 "多光标
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
+"快速移动
+Plug 'easymotion/vim-easymotion'
+"自动补全代码部分
+Plug 'SirVer/ultisnips'
+"" Snippets are separated from the engine. Add this if you want them:
+Plug 'honza/vim-snippets'
+Plug 'ervandew/supertab'
 call plug#end()
 
 
