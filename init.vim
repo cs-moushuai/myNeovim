@@ -56,7 +56,8 @@ let g:solarized_termcolors=256
 "colorscheme molokai
 "colorscheme gruvbox
 "colorscheme solarized
-colorscheme OceanicNext
+colorscheme gotham256
+"colorscheme OceanicNext
 "colorscheme flattened_dark
 "colorscheme industry
 "colorscheme pablo
@@ -213,7 +214,8 @@ set encoding=utf-8
 set fencs=utf-8,ucs-bom,shift-jis,gb18030,gbk,gb2312,cp936
 
 "设置文件编码"
-set fileencodings=utf-8
+"防止乱码
+set fileencodings=ucs-bom,utf-8,utf-16,gbk,big5,gb18030,latin1
 
 "设置终端编码"
 set termencoding=utf-8
@@ -399,9 +401,12 @@ nnoremap <silent> <F9> :call Compile()<cr>
 function! Compile()
     exec "w"
     if expand("%:e") == "cpp"
-        AsyncRun g++ -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" && $(VIM_FILEDIR)/$(VIM_FILENOEXT)
+        :call mkdir("build")
+        AsyncRun g++ -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/build/$(VIM_FILENOEXT)" && $(VIM_FILEDIR)/build/$(VIM_FILENOEXT)
     elseif expand("%:e") == "c"
-        AsyncRun gcc -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" && $(VIM_FILEDIR)/$(VIM_FILENOEXT)
+        :call mkdir("build")
+        AsyncRun g++ -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/build/$(VIM_FILENOEXT)" && $(VIM_FILEDIR)/build/$(VIM_FILENOEXT)
+        AsyncRun gcc -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/build/$(VIM_FILENOEXT)" && $(VIM_FILEDIR)/build/$(VIM_FILENOEXT)
     elseif expand("%:e") == "sh"
         AsyncRun bash "$(VIM_FILEPATH)"
     elseif expand("%:e") == "py"
@@ -500,6 +505,13 @@ endfunction
 map <silent> <F11> :call ToggleFullscreen()<CR>
 au GuiEnter * set t_vb=
 "let g:vimspector_enable_mappings = 'VISUAL_STUDIO'
+"
+function! DebugProfile()
+    if &filetype == cpp
+        exec "!cp ~world/.vim/debug_profile/cpp/.vimspector.json %:h"
+    elif &filetype == py
+    exec "!cp ~world/.vim/debug_profile/python/.vimspector.json %:h"
+endfunction
 
 nnoremap <leader>5 :call vimspector#Continue()<cr>
 nnoremap <leader>3 :call vimspector#Stop()<cr>
@@ -512,7 +524,8 @@ nnoremap <leader>0 :call vimspector#StepOver()<cr>
 nnoremap <leader>1 :call vimspector#StepInto()<cr>
 nnoremap <leader>2 :call vimspector#StepOut()<cr>
 nnoremap <leader>- :!g++ -g %<cr><cr>
-nnoremap <leader>= :!cp ~world/Desktop/.vimspector.json %:h<cr><cr>
+nnoremap <leader>= :call DebugProfile()<cr>
+
 
 "packadd! vimspector
 function! Menu()
@@ -556,7 +569,7 @@ hi def link TranslatorBorderNF          NormalFloat
 nmap <leader>h :tabnew ~world/.vim/doc/myVimHelp.txt<CR>
 nmap <leader>H :help myVimHelp.txt<CR>
 map <C-s> :w<CR>
-"nmap <leader>T :tabnew<CR>
+nmap <leader>L :tabnew<CR>
 
 "C-M-i自动格式化代码
 noremap <C-M-i> :Autoformat<CR>
@@ -885,41 +898,44 @@ au InsertEnter * exec "inoremap <silent> " .     g:UltiSnipsJumpBackwardTrigger 
 
 " Indent Python in the Google way.
 
-setlocal indentexpr=GetGooglePythonIndent(v:lnum)
+"setlocal indentexpr=GetGooglePythonIndent(v:lnum)
 
-let s:maxoff = 50 " maximum number of lines to look backwards.
+"let s:maxoff = 50 " maximum number of lines to look backwards.
 
-function GetGooglePythonIndent(lnum)
+"function GetGooglePythonIndent(lnum)
 
-  " Indent inside parens.
-  " Align with the open paren unless it is at the end of the line.
-  " E.g.
-  "   open_paren_not_at_EOL(100,
-  "                         (200,
-  "                          300),
-  "                         400)
-  "   open_paren_at_EOL(
-  "       100, 200, 300, 400)
-  call cursor(a:lnum, 1)
-  let [par_line, par_col] = searchpairpos('(\|{\|\[', '', ')\|}\|\]', 'bW',
-        \ "line('.') < " . (a:lnum - s:maxoff) . " ? dummy :"
-        \ . " synIDattr(synID(line('.'), col('.'), 1), 'name')"
-        \ . " =~ '\\(Comment\\|String\\)$'")
-  if par_line > 0
-    call cursor(par_line, 1)
-    if par_col != col("$") - 1
-      return par_col
-    endif
-  endif
+"" Indent inside parens.
+"" Align with the open paren unless it is at the end of the line.
+"" E.g.
+""   open_paren_not_at_EOL(100,
+""                         (200,
+""                          300),
+""                         400)
+""   open_paren_at_EOL(
+""       100, 200, 300, 400)
+"call cursor(a:lnum, 1)
+"let [par_line, par_col] = searchpairpos('(\|{\|\[', '', ')\|}\|\]', 'bW',
+            "\ "line('.') < " . (a:lnum - s:maxoff) . " ? dummy :"
+            "\ . " synIDattr(synID(line('.'), col('.'), 1), 'name')"
+            "\ . " =~ '\\(Comment\\|String\\)$'")
+"if par_line > 0
+"call cursor(par_line, 1)
+"if par_col != col("$") - 1
+"return par_col
+"endif
+"endif
 
-  " Delegate the rest to the original function.
-  return GetPythonIndent(a:lnum)
+"" Delegate the rest to the original function.
+"return GetPythonIndent(a:lnum)
 
-endfunction
+"endfunction
 
-let pyindent_nested_paren="&sw*2"
-let pyindent_open_paren="&sw*2"
-
+"let pyindent_nested_paren="&sw*2"
+"let pyindent_open_paren="&sw*2"
+"
+inoremap <C-a> <esc>I
+inoremap <C-e> <esc>A
+"
 call plug#begin('~/.vim/plugged')
 "Fuzzy file
 "Plug 'kien/ctrlp.vim'
@@ -1003,6 +1019,8 @@ Plug 'SirVer/ultisnips'
 "" Snippets are separated from the engine. Add this if you want them:
 Plug 'honza/vim-snippets'
 Plug 'ervandew/supertab'
+Plug 'rafi/awesome-vim-colorschemes'
+"python format
 call plug#end()
 
 
