@@ -1,8 +1,6 @@
 "~/.vimrc
 "vim config file
-"date 2020-11-27
-"Created by bert
-"blog:https://blog.51cto.com/zpf666
+"date 2020-12-24
 """""""""""""""""""""""""""""""""""
 """=>全局配置<="""
 """""""""""""""""""""""""""""""""""
@@ -400,6 +398,7 @@ nnoremap <silent> <F9> :call Compile()<cr>
 
 function! Compile()
     exec "w"
+    chdir %:h
     if expand("%:e") == "cpp"
         :call mkdir("build")
         AsyncRun g++ -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/build/$(VIM_FILENOEXT)" && $(VIM_FILEDIR)/build/$(VIM_FILENOEXT)
@@ -529,7 +528,7 @@ nnoremap <leader>= :call DebugProfile()<cr>
 
 "packadd! vimspector
 function! Menu()
-    :exec "tabnew | Startify"
+    exec "tabnew | Startify"
 endfunction
 
 map <silent> <Leader>m :call Menu()<CR>
@@ -949,8 +948,6 @@ Plug 'mhinz/vim-startify'
 Plug 'yggdroot/indentline'
 "completor
 Plug 'https://gitee.com/mirrors/youcompleteme', { 'do': './install.py --clang-completer --system-libclang' }
-"Plug 'Valloric/YouCompleteMe'
-"Plug 'valloric/youcompleteme'
 "outline
 Plug 'majutsushi/tagbar'
 "comment

@@ -162,6 +162,13 @@ snippet功能请去看相关文档
 K 查看光标下的文档包括shell and python
 <C-a> 插入模式移动到行首
 <C-e> 插入模式移动到行尾
+<C-w>H 窗口移到最左边
+<C-w>L右
+<C-w>J下
+<C-w>K上
+:resize +/-N 窗口高度+/-N行
+:vertical resize +/-N
+
 
 
  vim:tw=78:ts=8:noet:ft=help:norl:
