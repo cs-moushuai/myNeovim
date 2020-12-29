@@ -4,7 +4,7 @@
 """""""""""""""""""""""""""""""""""
 """=>全局配置<="""
 """""""""""""""""""""""""""""""""""
-let mapleader=" "
+let mapleader="\<space>"
 
 "关闭vi兼容模式"
 set nocompatible
@@ -673,15 +673,17 @@ nmap <leader>R :source $MYVIMRC<CR>
 " 使用 ;e 切换显示文件浏览，使用 ;a 查找到当前文件位置
 let g:maplocalleader='\'
 nnoremap <silent> <LocalLeader>e
+            \ :chdir %:h<cr>
             \ :<C-u>Defx -resume -toggle -buffer-name=tab`tabpagenr()` <CR>
 nnoremap <silent> <LocalLeader>a
+            \ :chdir %:h<cr>
             \ :<C-u>Defx -resume -buffer-name=tab`tabpagenr()` -search=`expand('%:p')`<CR>
 
 
 
 autocmd FileType defx call s:defx_my_settings()
 function! s:defx_my_settings() abort
-    " Define mappings
+    "Define mappings
     nnoremap <silent><buffer><expr> <CR>
                 \ defx#is_directory() ?
                 \ defx#do_action('open_tree') :
@@ -932,8 +934,11 @@ au InsertEnter * exec "inoremap <silent> " .     g:UltiSnipsJumpBackwardTrigger 
 "let pyindent_nested_paren="&sw*2"
 "let pyindent_open_paren="&sw*2"
 "
-inoremap <C-a> <esc>I
-inoremap <C-e> <esc>A
+inoremap <C-j> <esc>I
+inoremap <C-k> <esc>A
+
+
+nnoremap <F5> :UndotreeToggle<CR>
 "
 call plug#begin('~/.vim/plugged')
 "Fuzzy file
@@ -1018,6 +1023,8 @@ Plug 'honza/vim-snippets'
 Plug 'ervandew/supertab'
 Plug 'rafi/awesome-vim-colorschemes'
 "python format
+"undo tree
+Plug 'mbbill/undotree'
 call plug#end()
 
 
@@ -1035,7 +1042,7 @@ call plug#end()
 "
 call defx#custom#option('_', {
             \ 'columns': 'indent:git:icons:filename',
-            \ 'winwidth': 30,
+            \ 'winwidth': 25,
             \ 'split': 'vertical',
             \ 'direction': 'topleft',
             \ 'show_ignored_files': 0,
