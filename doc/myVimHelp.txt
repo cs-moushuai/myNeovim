@@ -44,6 +44,7 @@ d 删除光标所在的文件或文件夹
 yy 输出当前光标所在的路径
 ======================================
 <F4>函数列表
+<F5>历史更改记录
 <F8>打开命令提示
 <F9>编译运行cpp,c,sh语言
 <F11>全屏
@@ -171,6 +172,11 @@ K 查看光标下的文档包括shell and python
 vim --startuptime startuptime.log记录插件运行时间
 shift/ctrl + <-/->可以在命令行快速移动(C-b, C-e)
 在命令行c-f打开历史,c-c编辑
+
+:Make 可以在前台quickfix窗口中运行make
+:Make! 后台
+:Dispatch <compiler> == :compiler <compiler> and :make
+:Dispatch <command>
 
 
 

@@ -939,14 +939,81 @@ inoremap <C-k> <esc>A
 
 
 nnoremap <F5> :UndotreeToggle<CR>
+
+" these "Ctrl mappings" work well when Caps Lock is mapped to Ctrl
+nmap <silent> <leader>tn :TestNearest<CR>
+nmap <silent> <leader>tf :TestFile<CR>
+nmap <silent> <leader>ts :TestSuite<CR>
+nmap <silent> <leader>tl :TestLast<CR>
+nmap <silent> <leader>tv :TestVisit<CR>
+
+augroup neomake_hook
+    au!
+    autocmd User NeomakeJobFinished call TestFinished()
+    autocmd User NeomakeJobStarted call TestStarted()
+augroup END
+" make test commands execute using dispatch.vim
+"let test#strategy = "dispatch"
+" use the jest-vim-reporter to shorten the jest testoutput
+let g:test#javascript#jest#options = '--reporters jest-vim-reporter'
+" use neomake for async running of tests
+let test#strategy = "neomake"
+" do not open the test run results, can be changed to show them
+let g:neomake_open_list = 0
+
+"" initially empty status
+let g:testing_status = ''
+" Start test
+function! TestStarted() abort
+    let g:testing_status = 'Test ⌛'
+endfunction
+
+
+" Show message when all tests are passing
+function! TestFinished() abort
+    let context = g:neomake_hook_context
+    if context.jobinfo.exit_code == 0
+        let g:testing_status = 'Test ✅'
+    endif
+    if context.jobinfo.exit_code == 1
+        let g:testing_status = 'Test ❌'
+    endif
+endfunction
+
+function! TestStatus() abort
+    return g:testing_status
+endfunction
+
+let g:lightline = {
+            \ 'colorscheme': 'wombat',
+            \ 'active': {
+            \   'left': [ [ 'mode', 'paste' ],
+            \             [ 'cocstatus', 'teststatus', 'readonly', 'filename', 'modified' ] ]
+            \ },
+            \ 'component_function': {
+            \   'cocstatus': 'coc#status',
+            \   'teststatus': 'TestStatus'
+            \ },
+            \ }
+nnoremap [q :cprevious<CR>
+nnoremap ]q :cnext<CR>
+nnoremap [Q :cfirst<CR>
+nnoremap ]Q :clast<CR>
+nnoremap <leader>tm :exec RunTestVerbose()<CR>
+
+function! RunTestVerbose()
+  let g:test#javascript#jest#options = '' 
+  :TestNearest -strategy=neovim 
+  let g:test#javascript#jest#options = '--reporters jest-vim-reporter'
+endfunction
 "
 call plug#begin('~/.vim/plugged')
 "Fuzzy file
 "Plug 'kien/ctrlp.vim'
 Plug 'yggdroot/leaderf'
 "status bar
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+"Plug 'vim-airline/vim-airline'
+"Plug 'vim-airline/vim-airline-themes'
 "start menu
 Plug 'mhinz/vim-startify'
 "bleam in for, if ...
@@ -1025,6 +1092,14 @@ Plug 'rafi/awesome-vim-colorschemes'
 "python format
 "undo tree
 Plug 'mbbill/undotree'
+"test code
+Plug 'vim-test/vim-test'
+"term
+Plug 'tpope/vim-dispatch'
+"make
+Plug 'neomake/neomake'
+"line
+Plug 'itchyny/lightline.vim'
 call plug#end()
 
 
