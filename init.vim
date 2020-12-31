@@ -1,6 +1,6 @@
 "~/.vimrc
 "vim config file
-"date 2020-12-24
+"date 2020-12-31
 """""""""""""""""""""""""""""""""""
 """=>全局配置<="""
 """""""""""""""""""""""""""""""""""
@@ -984,28 +984,52 @@ function! TestStatus() abort
     return g:testing_status
 endfunction
 
+"let g:lightline = {
+            "\ 'colorscheme': 'wombat',
+            "\ 'active': {
+            "\   'left': [ [ 'mode', 'paste' ],
+            "\             [ 'cocstatus', 'teststatus', 'readonly', 'filename', 'modified' ] ]
+            "\ },
+            "\ 'component_function': {
+            "\   'cocstatus': 'coc#status',
+            "\   'teststatus': 'TestStatus'
+            "\ },
+            "\ }
+autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
+let g:lightline#bufferline#show_number  = 1
+let g:lightline#bufferline#shorten_path = 0
+let g:lightline#bufferline#unnamed      = '[No Name]'
+
+let g:lightline                  = {}
 let g:lightline = {
-            \ 'colorscheme': 'wombat',
+            \ 'colorscheme': 'selenized_dark',
             \ 'active': {
-            \   'left': [ [ 'mode', 'paste' ],
-            \             [ 'cocstatus', 'teststatus', 'readonly', 'filename', 'modified' ] ]
+            \   'left': [ [ 'mode', 'paste' ], [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
             \ },
-            \ 'component_function': {
-            \   'cocstatus': 'coc#status',
-            \   'teststatus': 'TestStatus'
+            \ 'tabline': {
+            \   'left': [ ['buffers'] ],
+            \   'right': [ ['close'] ]
             \ },
+            \ 'component_expand': {
+            \   'gitbranch': 'gitbranch#name',
+            \   'buffers': 'lightline#bufferline#buffers'
+            \ },
+            \ 'component_type': {
+            \   'buffers': 'tabsel'
             \ }
-nnoremap [q :cprevious<CR>
-nnoremap ]q :cnext<CR>
-nnoremap [Q :cfirst<CR>
-nnoremap ]Q :clast<CR>
+            \ }
 nnoremap <leader>tm :exec RunTestVerbose()<CR>
 
 function! RunTestVerbose()
-  let g:test#javascript#jest#options = '' 
-  :TestNearest -strategy=neovim 
-  let g:test#javascript#jest#options = '--reporters jest-vim-reporter'
+    let g:test#javascript#jest#options = ''
+    :TestNearest -strategy=neovim
+    let g:test#javascript#jest#options = '--reporters jest-vim-reporter'
 endfunction
+"let g:lightline#bufferline#composed_number_map = {
+            "\ 1:  '⑴ ', 2:  '⑵ ', 3:  '⑶ ', 4:  '⑷ ', 5:  '⑸ ',
+            "\ 6:  '⑹ ', 7:  '⑺ ', 8:  '⑻ ', 9:  '⑼ ', 10: '⑽ ',
+            "\ 11: '⑾ ', 12: '⑿ ', 13: '⒀ ', 14: '⒁ ', 15: '⒂ ',
+            "\ 16: '⒃ ', 17: '⒄ ', 18: '⒅ ', 19: '⒆ ', 20: '⒇ '}
 "
 call plug#begin('~/.vim/plugged')
 "Fuzzy file
@@ -1089,7 +1113,6 @@ Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'ervandew/supertab'
 Plug 'rafi/awesome-vim-colorschemes'
-"python format
 "undo tree
 Plug 'mbbill/undotree'
 "test code
@@ -1100,6 +1123,9 @@ Plug 'tpope/vim-dispatch'
 Plug 'neomake/neomake'
 "line
 Plug 'itchyny/lightline.vim'
+Plug 'mengelbrecht/lightline-bufferline'
+Plug 'itchyny/vim-gitbranch'
+Plug 'sainnhe/artify.vim'
 call plug#end()
 
 
