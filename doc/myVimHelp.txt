@@ -177,6 +177,14 @@ shift/ctrl + <-/->可以在命令行快速移动(C-b, C-e)
 :Make! 后台
 :Dispatch <compiler> == :compiler <compiler> and :make
 :Dispatch <command>
+:Neomake
+<leader>tn :TestNearest
+<leader>tf :TestFile
+<leader>ts :TestSuite
+<leader>tl :TestLast
+<leader>tv :TestVisit
+<leader>tm :exec RunTestVerbose()<CR>
+
 
 
 
