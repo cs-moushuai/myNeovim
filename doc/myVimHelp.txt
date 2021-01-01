@@ -185,7 +185,22 @@ shift/ctrl + <-/->可以在命令行快速移动(C-b, C-e)
 <leader>tv :TestVisit
 <leader>tm :exec RunTestVerbose()<CR>
 
+:SCROLLCOLOR 选择配色
+<Leader>ww -- Open default wiki index file.
+<Leader>wt -- Open default wiki index file in a new tab.
+<Leader>ws -- Select and open wiki index file.
+<Leader>wd -- Delete wiki file you are in.
+<Leader>wr -- Rename wiki file you are in.
+<Enter> -- Follow/Create wiki link.
+<Shift-Enter> -- Split and follow/create wiki link.
+<Ctrl-Enter> -- Vertical split and follow/create wiki link.
+<Backspace> -- Go back to parent(previous) wiki link.
+<Tab> -- Find next wiki link.
+<Shift-Tab> -- Find previous wiki link.
 
+gA 显示光标下方数字的四种表示形式（或在可视模式下选择）
+crd，crx，cro，crb转换光标下的编号，以十进制，十六进制，八进制，二进制，分别。
 
+:h eval查看vimscript文档 
 
  vim:tw=78:ts=8:noet:ft=help:norl:

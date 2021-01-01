@@ -49,20 +49,32 @@ syntax enable
 "set guifont=dejaVu\ Sans\ MONO\ 10
 set guifont=Courier_New:h10:cANSI
 
+" Or if you have Neovim >= 0.1.5
+if (has("termguicolors"))
+    set termguicolors
+endif
+
+set t_Co=256
+
 let g:solarized_termcolors=256
+"高亮显示当前行"
+set cursorline
+"设置背景颜色"
+set background=dark
+hi cursorline guibg=#00ff00
+hi CursorColumn guibg=#00ff00
+let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+
 "设置颜色"
 "colorscheme molokai
 "colorscheme gruvbox
-"colorscheme solarized
-colorscheme gotham256
+colorscheme solarized8
+"colorscheme gotham256
 "colorscheme OceanicNext
 "colorscheme flattened_dark
 "colorscheme industry
 "colorscheme pablo
-"高亮显示当前行"
-set cursorline
-hi cursorline guibg=#00ff00
-hi CursorColumn guibg=#00ff00
 
 "高亮显示普通txt文件（需要txt.vim脚本）"
 "au BufRead,BufNewFile *  setfiletype txt
@@ -250,8 +262,6 @@ set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %{strf
 "粘贴不换行问题的解决方法"
 "set pastetoggle=<F9>
 
-"设置背景颜色"
-set background=dark
 
 "文件类型自动检测，代码智能补全"
 set completeopt=longest,preview,menu
@@ -267,10 +277,10 @@ set noswapfile
 set autowrite
 
 " 跳转Window
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
+"nnoremap <C-h> <C-w>h
+"nnoremap <C-j> <C-w>j
+"nnoremap <C-k> <C-w>k
+"nnoremap <C-l> <C-w>l
 
 "显示中文帮助"
 if version >= 603
@@ -395,7 +405,13 @@ nnoremap <silent> <F8> :call asyncrun#quickfix_toggle(6)<cr>
 nnoremap <silent> <F9> :call Compile()<cr>
 
 "nnoremap <silent> <F10> :AsyncRun -raw -cwd=$(VIM_FILEDIR) "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <cr>
-
+function RunPython()
+    let mp = &makeprg
+    let ef = &errorformat
+    let exeFile = expand("%:t")
+    setlocal makeprg=python \-u
+    set efm=%C\ %.%#,%A\ \
+endfunction
 function! Compile()
     exec "w"
     chdir %:h
@@ -773,7 +789,6 @@ nnoremap <silent> <Leader>F :Leaderf function<CR>
 "模糊搜索，很强大的功能，迅速秒搜
 nnoremap <silent> <Leader>rg :Leaderf rg<CR>
 
-set t_Co=256
 
 set relativenumber
 
@@ -787,10 +802,6 @@ nnoremap <leader>Q :qa<cr>
 
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
-" Or if you have Neovim >= 0.1.5
-if (has("termguicolors"))
-    set termguicolors
-endif
 
 inoremap <c-s> <esc>:w<cr>a
 "nnoremap <leader><space> za
@@ -1030,6 +1041,13 @@ endfunction
             "\ 6:  '⑹ ', 7:  '⑺ ', 8:  '⑻ ', 9:  '⑼ ', 10: '⑽ ',
             "\ 11: '⑾ ', 12: '⑿ ', 13: '⒀ ', 14: '⒁ ', 15: '⒂ ',
             "\ 16: '⒃ ', 17: '⒄ ', 18: '⒅ ', 19: '⒆ ', 20: '⒇ '}
+"let g:tmux_navigator_no_mappings = 1
+
+"nnoremap <silent> {Left-Mapping} :TmuxNavigateLeft<cr>
+"nnoremap <silent> {Down-Mapping} :TmuxNavigateDown<cr>
+"nnoremap <silent> {Up-Mapping} :TmuxNavigateUp<cr>
+"nnoremap <silent> {Right-Mapping} :TmuxNavigateRight<cr>
+"nnoremap <silent> {Previous-Mapping} :TmuxNavigatePrevious<cr>
 "
 call plug#begin('~/.vim/plugged')
 "Fuzzy file
@@ -1059,17 +1077,16 @@ Plug 'puremourning/vimspector'
 "bracket
 Plug 'jiangmiao/auto-pairs'
 "themes
-Plug 'morhetz/gruvbox'
-Plug 'tomasr/molokai'
-Plug 'w0ng/vim-hybrid'
-Plug 'rakr/vim-one'
-Plug 'whatyouhide/vim-gotham'
-Plug 'mhartington/oceanic-next'
-Plug 'romainl/flattened'
-Plug 'cocopon/iceberg.vim'
-"Plug 'flazz/vim-colorschemes'
-"Plug 'chriskempson/base16-vim'
-Plug 'altercation/solarized'
+"Plug 'morhetz/gruvbox'
+"Plug 'tomasr/molokai'
+"Plug 'w0ng/vim-hybrid'
+"Plug 'rakr/vim-one'
+"Plug 'whatyouhide/vim-gotham'
+"Plug 'mhartington/oceanic-next'
+"Plug 'romainl/flattened'
+"Plug 'cocopon/iceberg.vim'
+Plug 'rafi/awesome-vim-colorschemes'
+"Plug 'altercation/solarized'
 "translator
 Plug 'voldikss/vim-translator'
 "file tree
@@ -1112,7 +1129,6 @@ Plug 'SirVer/ultisnips'
 "" Snippets are separated from the engine. Add this if you want them:
 Plug 'honza/vim-snippets'
 Plug 'ervandew/supertab'
-Plug 'rafi/awesome-vim-colorschemes'
 "undo tree
 Plug 'mbbill/undotree'
 "test code
@@ -1121,11 +1137,27 @@ Plug 'vim-test/vim-test'
 Plug 'tpope/vim-dispatch'
 "make
 Plug 'neomake/neomake'
-"line
+"line same as airline
 Plug 'itchyny/lightline.vim'
 Plug 'mengelbrecht/lightline-bufferline'
 Plug 'itchyny/vim-gitbranch'
 Plug 'sainnhe/artify.vim'
+"Python ide配置大全
+"Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
+"check colorscheme
+Plug 'vim-scripts/ScrollColors'
+"vim and tmux motion
+Plug 'christoomey/vim-tmux-navigator'
+"wiki
+Plug 'vimwiki/vimwiki'
+"Plug 'tpope/vim-vinegar'
+"open file in right way
+Plug 'EinfachToll/DidYouMean'
+"can repeat surround and other plugin for .
+Plug 'tpope/vim-repeat'
+Plug 'glts/vim-magnum'
+"转换进制
+Plug 'glts/vim-radical'
 call plug#end()
 
 
