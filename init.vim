@@ -667,7 +667,7 @@ set tabline=%!MyTabLine()
 "au FileType c,cpp,objc,objcpp call rainbow#load()
 let g:rainbow_active = 1
 
-nmap <leader>e :tabnew ~world/.vimrc<CR>
+nmap <leader>e :tabnew ~world/.vim/init.vim<CR>
 nmap <leader>R :source $MYVIMRC<CR>
 
 " 使用 ;e 切换显示文件浏览，使用 ;a 查找到当前文件位置
