@@ -257,7 +257,7 @@ set vb t_vb=
 "显示状态栏（默认值为1，表示无法显示状态栏）"
 set laststatus=2
 "设置状态栏显示的内容
-set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %{strftime(\"%d/%m/%y\ -\ %H:%M\")}\ %{ALEGetStatusLine()}
+set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %{strftime(\"%d/%m/%y\ -\ %H:%M\")}}
 
 "粘贴不换行问题的解决方法"
 "set pastetoggle=<F9>
@@ -1011,24 +1011,54 @@ let g:lightline#bufferline#show_number  = 1
 let g:lightline#bufferline#shorten_path = 0
 let g:lightline#bufferline#unnamed      = '[No Name]'
 
-let g:lightline                  = {}
+let g:lightline#ale#indicator_checking = "\uf110"
+let g:lightline#ale#indicator_infos = "\uf129"
+let g:lightline#ale#indicator_warnings = "\uf071"
+let g:lightline#ale#indicator_errors = "\uf05e"
+let g:lightline#ale#indicator_ok = "\uf00c"
+
+let g:lightline  = {}
 let g:lightline = {
             \ 'colorscheme': 'selenized_dark',
             \ 'active': {
-            \   'left': [ [ 'mode', 'paste' ], [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+            \   'left': [ [ 'mode', 'paste' ], [ 'gitbranch', 'readonly', 'filename', 'modified' ] ],
+            \   'right':  [ [ 'lineinfo' ], [ 'percent' ],
+            \            [ 'fileformat', 'fileencoding', 'filetype' ] ,  [ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_infos', 'linter_ok' ] ]
             \ },
             \ 'tabline': {
-            \   'left': [ ['buffers'] ],
-            \   'right': [ ['close'] ]
+            \   'left': [ ['tabs'] ],
+            \   'right': [ ['bufnum'] ]
+            \ },
+            \ 'component': {
+            \   'readonly': '%{&filetype=="help"?"":&readonly?"\ue0a2":""}',
+            \   'modified': '%{&filetype=="help"?"":&modified?"\ue0a0":&modifiable?"":"-"}',
+            \   'fugitive': '%{exists("*fugitive#head")?fugitive#head():""}'
+            \ },
+            \ 'component_visible_condition': {
+            \   'readonly': '(&filetype!="help"&& &readonly)',
+            \   'modified': '(&filetype!="help"&&(&modified||!&modifiable))',
+            \   'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())'
             \ },
             \ 'component_expand': {
             \   'gitbranch': 'gitbranch#name',
-            \   'buffers': 'lightline#bufferline#buffers'
+            \   'buffers': 'lightline#bufferline#buffers',
+            \  'linter_checking': 'lightline#ale#checking',
+            \  'linter_infos': 'lightline#ale#infos',
+            \  'linter_warnings': 'lightline#ale#warnings',
+            \  'linter_errors': 'lightline#ale#errors',
+            \  'linter_ok': 'lightline#ale#ok',
             \ },
+            \ 'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
+            \ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" },
             \ 'component_type': {
-            \   'buffers': 'tabsel'
-            \ }
-            \ }
+            \   'buffers': 'tabsel',
+            \     'linter_checking': 'right',
+            \     'linter_infos': 'right',
+            \     'linter_warnings': 'warning',
+            \     'linter_errors': 'error',
+            \     'linter_ok': 'right',
+            \ } }
+
 nnoremap <leader>tm :exec RunTestVerbose()<CR>
 
 function! RunTestVerbose()
@@ -1043,11 +1073,6 @@ endfunction
             "\ 16: '⒃ ', 17: '⒄ ', 18: '⒅ ', 19: '⒆ ', 20: '⒇ '}
 "let g:tmux_navigator_no_mappings = 1
 
-"nnoremap <silent> {Left-Mapping} :TmuxNavigateLeft<cr>
-"nnoremap <silent> {Down-Mapping} :TmuxNavigateDown<cr>
-"nnoremap <silent> {Up-Mapping} :TmuxNavigateUp<cr>
-"nnoremap <silent> {Right-Mapping} :TmuxNavigateRight<cr>
-"nnoremap <silent> {Previous-Mapping} :TmuxNavigatePrevious<cr>
 "
 call plug#begin('~/.vim/plugged')
 "Fuzzy file
@@ -1140,6 +1165,7 @@ Plug 'neomake/neomake'
 "line same as airline
 Plug 'itchyny/lightline.vim'
 Plug 'mengelbrecht/lightline-bufferline'
+Plug 'maximbaz/lightline-ale'
 Plug 'itchyny/vim-gitbranch'
 Plug 'sainnhe/artify.vim'
 "Python ide配置大全
