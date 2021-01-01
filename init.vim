@@ -1,6 +1,6 @@
 "~/.vimrc
 "vim config file
-"date 2020-12-31
+"date 2021-1-1
 """""""""""""""""""""""""""""""""""
 """=>全局配置<="""
 """""""""""""""""""""""""""""""""""
@@ -430,27 +430,6 @@ function! Compile()
 
 endfunction
 
-""let g:ale_linters_explicit = 1
-""let g:ale_completion_delay = 500
-""let g:ale_echo_delay = 20
-""let g:ale_lint_delay = 500
-""let g:ale_echo_msg_format = '[%linter%] %code: %%s'
-""let g:ale_lint_on_text_changed = 'normal'
-""let g:ale_lint_on_insert_leave = 1
-""let g:airline#extensions#ale#enabled = 1
-
-""let g:ale_c_gcc_options = '-Wall -O2 -std=c99'
-""let g:ale_cpp_gcc_options = '-Wall -O2 -std=c++14'
-""let g:ale_c_cppcheck_options = ''
-""let g:ale_cpp_cppcheck_options = ''
-
-""let g:ale_sign_error = "\ue009\ue009"
-"hi! clear SpellBad
-"hi! clear SpellCap
-"hi! clear SpellRare
-"hi! SpellBad gui=undercurl guisp=red
-"hi! SpellCap gui=undercurl guisp=blue
-"hi! SpellRare gui=undercurl guisp=magenta
 "ale
 "始终开启标志列
 let g:ale_sign_column_always = 1
@@ -1017,6 +996,17 @@ let g:lightline#ale#indicator_warnings = "\uf071"
 let g:lightline#ale#indicator_errors = "\uf05e"
 let g:lightline#ale#indicator_ok = "\uf00c"
 
+let g:lightline = {
+            \ }
+
+function! MyFiletype()
+    return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype . ' ' . WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
+endfunction
+
+function! MyFileformat()
+    return winwidth(0) > 70 ? (&fileformat . ' ' . WebDevIconsGetFileFormatSymbol()) : ''
+endfunction
+
 let g:lightline  = {}
 let g:lightline = {
             \ 'colorscheme': 'selenized_dark',
@@ -1033,6 +1023,10 @@ let g:lightline = {
             \   'readonly': '%{&filetype=="help"?"":&readonly?"\ue0a2":""}',
             \   'modified': '%{&filetype=="help"?"":&modified?"\ue0a0":&modifiable?"":"-"}',
             \   'fugitive': '%{exists("*fugitive#head")?fugitive#head():""}'
+            \ },
+            \ 'component_function': {
+            \   'filetype': 'MyFiletype',
+            \   'fileformat': 'MyFileformat',
             \ },
             \ 'component_visible_condition': {
             \   'readonly': '(&filetype!="help"&& &readonly)',
@@ -1066,12 +1060,6 @@ function! RunTestVerbose()
     :TestNearest -strategy=neovim
     let g:test#javascript#jest#options = '--reporters jest-vim-reporter'
 endfunction
-"let g:lightline#bufferline#composed_number_map = {
-            "\ 1:  '⑴ ', 2:  '⑵ ', 3:  '⑶ ', 4:  '⑷ ', 5:  '⑸ ',
-            "\ 6:  '⑹ ', 7:  '⑺ ', 8:  '⑻ ', 9:  '⑼ ', 10: '⑽ ',
-            "\ 11: '⑾ ', 12: '⑿ ', 13: '⒀ ', 14: '⒁ ', 15: '⒂ ',
-            "\ 16: '⒃ ', 17: '⒄ ', 18: '⒅ ', 19: '⒆ ', 20: '⒇ '}
-"let g:tmux_navigator_no_mappings = 1
 
 "
 call plug#begin('~/.vim/plugged')
@@ -1184,20 +1172,10 @@ Plug 'tpope/vim-repeat'
 Plug 'glts/vim-magnum'
 "转换进制
 Plug 'glts/vim-radical'
+"icons
+Plug 'ryanoasis/vim-devicons'
 call plug#end()
 
-
-"call defx#custom#option('_', {
-"            \ 'columns': 'indent:git:icons:filename',
-"            \ 'winwidth': 30,
-"            \ 'split': 'vertical',
-"            \ 'direction': 'topleft',
-"            \ 'show_ignored_files': 0,
-"            \ 'root_marker': '≡ ',
-"            \ 'ignored_files':
-"            \     '.mypy_cache,.pytest_cache,.git,.hg,.svn,.stversions'
-"            \   . ',__pycache__,.sass-cache,*.egg-info,.DS_Store,*.pyc,*.swp'
-"            \ })
 "
 call defx#custom#option('_', {
             \ 'columns': 'indent:git:icons:filename',
@@ -1207,6 +1185,7 @@ call defx#custom#option('_', {
             \ 'show_ignored_files': 0,
             \ 'root_marker': '≡ ',
             \ 'ignored_files':
-            \     '.*'
+            \     '.mypy_cache,.pytest_cache,.git,.hg,.svn,.stversions'
+            \   . ',__pycache__,.sass-cache,*.egg-info,.DS_Store,*.pyc,*.swp'
             \ })
 
