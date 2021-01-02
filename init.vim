@@ -399,8 +399,17 @@ let g:asyncrun_open = 8
 " 任务结束时候响铃提醒
 let g:asyncrun_bell = 1
 
+function! QuickAbout()
+    if expand("%:e") == "py"
+        exec "normal \<c-w>\<c-w>"
+        q
+    else
+        call asyncrun#quickfix_toggle(6)
+    endif
+endfunction
+
 " 设置 F10 打开/关闭 Quickfix 窗口
-nnoremap <silent> <F8> :call asyncrun#quickfix_toggle(6)<cr>
+nnoremap <silent> <F8> :call QuickAbout()<cr>
 
 nnoremap <silent> <F9> :call Compile()<cr>
 
@@ -424,7 +433,8 @@ function! Compile()
     elseif expand("%:e") == "sh"
         AsyncRun bash "$(VIM_FILEPATH)"
     elseif expand("%:e") == "py"
-        AsyncRun time python3 "$(VIM_FILEPATH)"
+        "AsyncRun time python3 "$(VIM_FILEPATH)"
+        :PymodeRun
     endif
 
 endfunction
@@ -503,7 +513,8 @@ function! DebugProfile()
     if &filetype == cpp
         exec "!cp ~world/.vim/debug_profile/cpp/.vimspector.json %:h"
     elif &filetype == py
-    exec "!cp ~world/.vim/debug_profile/python/.vimspector.json %:h"
+        exec "!cp ~world/.vim/debug_profile/python/.vimspector.json %:h"
+    endif
 endfunction
 
 nnoremap <leader>5 :call vimspector#Continue()<cr>
@@ -1156,7 +1167,7 @@ Plug 'maximbaz/lightline-ale'
 Plug 'itchyny/vim-gitbranch'
 Plug 'sainnhe/artify.vim'
 "Python ide配置大全
-"Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
+Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
 "check colorscheme
 Plug 'vim-scripts/ScrollColors'
 "vim and tmux motion
