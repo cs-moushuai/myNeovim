@@ -426,14 +426,14 @@ function! Compile()
     chdir %:h
     if expand("%:e") == "cpp"
         :call mkdir("build")
-        AsyncRun time g++ -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/build/$(VIM_FILENOEXT)" && $(VIM_FILEDIR)/build/$(VIM_FILENOEXT)
+        AsyncRun g++ -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/build/$(VIM_FILENOEXT)" && $(VIM_FILEDIR)/build/$(VIM_FILENOEXT)
     elseif expand("%:e") == "c"
         :call mkdir("build")
         AsyncRun gcc -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/build/$(VIM_FILENOEXT)" && $(VIM_FILEDIR)/build/$(VIM_FILENOEXT)
     elseif expand("%:e") == "sh"
         AsyncRun bash "$(VIM_FILEPATH)"
     elseif expand("%:e") == "py"
-        "AsyncRun time python3 "$(VIM_FILEPATH)"
+        "AsyncRun python3 "$(VIM_FILEPATH)"
         :PymodeRun
     endif
 
@@ -984,17 +984,6 @@ function! TestStatus() abort
     return g:testing_status
 endfunction
 
-"let g:lightline = {
-            "\ 'colorscheme': 'wombat',
-            "\ 'active': {
-            "\   'left': [ [ 'mode', 'paste' ],
-            "\             [ 'cocstatus', 'teststatus', 'readonly', 'filename', 'modified' ] ]
-            "\ },
-            "\ 'component_function': {
-            "\   'cocstatus': 'coc#status',
-            "\   'teststatus': 'TestStatus'
-            "\ },
-            "\ }
 autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
 let g:lightline#bufferline#show_number  = 1
 let g:lightline#bufferline#shorten_path = 0
@@ -1184,6 +1173,8 @@ Plug 'glts/vim-magnum'
 Plug 'glts/vim-radical'
 "icons
 Plug 'ryanoasis/vim-devicons'
+"project manager
+"Plug 'tpope/vim-projectionist'
 call plug#end()
 
 "
