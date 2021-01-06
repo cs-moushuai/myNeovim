@@ -400,12 +400,13 @@ let g:asyncrun_open = 8
 let g:asyncrun_bell = 1
 
 function! QuickAbout()
-    if expand("%:e") == "py"
-        exec "normal \<c-w>\<c-w>"
-        q
-    else
-        call asyncrun#quickfix_toggle(6)
-    endif
+    "if expand("%:e") == "py"
+    "exec "normal \<c-w>\<c-w>"
+    "q
+    "else
+    "call asyncrun#quickfix_toggle(6)
+    "endif
+    call asyncrun#quickfix_toggle(6)
 endfunction
 
 " 设置 F10 打开/关闭 Quickfix 窗口
@@ -433,8 +434,8 @@ function! Compile()
     elseif expand("%:e") == "sh"
         AsyncRun bash "$(VIM_FILEPATH)"
     elseif expand("%:e") == "py"
-        "AsyncRun python3 "$(VIM_FILEPATH)"
-        :PymodeRun
+        AsyncRun python3 "$(VIM_FILEPATH)"
+        ":PymodeRun
     endif
 
 endfunction
@@ -513,8 +514,8 @@ function! DebugProfile()
     if &filetype == cpp
         exec "!cp ~world/.vim/debug_profile/cpp/.vimspector.json %:h"
     elif &filetype == py
-        exec "!cp ~world/.vim/debug_profile/python/.vimspector.json %:h"
-    endif
+    exec "!cp ~world/.vim/debug_profile/python/.vimspector.json %:h"
+endif
 endfunction
 
 nnoremap <leader>5 :call vimspector#Continue()<cr>
@@ -770,7 +771,7 @@ nnoremap <silent> <c-p> :Leaderf file<CR>
 nnoremap <silent> <Leader>M :Leaderf mru<CR>
 
 "Buffer
-nnoremap <silent> <Leader>b :Leaderf buffer<CR>
+nnoremap <silent> <Leader>B :Leaderf buffer<CR>
 
 "函数搜索（仅当前文件里）
 nnoremap <silent> <Leader>F :Leaderf function<CR>
