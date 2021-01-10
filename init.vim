@@ -413,6 +413,8 @@ endfunction
 nnoremap <silent> <F8> :call QuickAbout()<cr>
 
 nnoremap <silent> <F9> :call Compile()<cr>
+nnoremap <silent> <F6> :colder<cr>
+nnoremap <silent> <F7> :cnewer<cr>
 
 "nnoremap <silent> <F10> :AsyncRun -raw -cwd=$(VIM_FILEDIR) "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <cr>
 function RunPython()
@@ -436,7 +438,10 @@ function! Compile()
     elseif expand("%:e") == "py"
         AsyncRun python3 "$(VIM_FILEPATH)"
         ":PymodeRun
-    endif
+    elseif expand("%:e") == "java"
+        "AsyncRun javac "$(VIM_FILEPATH)" -d "$(VIM_FILEDIR)/$(VIM_FILENOEXT).class" && java  "$(VIM_FILEDIR)/$(VIM_FILENOEXT)"
+        AsyncRun javac % && java -cp %:p:h %:t:r
+        endif
 
 endfunction
 
@@ -491,6 +496,7 @@ let g:ycm_filetype_whitelist = {
             \ "zsh":1,
             \ "zimbu":1,
             \ "python":1,
+            \ "java":1,
             \ }
 set noshowmode
 
@@ -1060,6 +1066,10 @@ function! RunTestVerbose()
     :TestNearest -strategy=neovim
     let g:test#javascript#jest#options = '--reporters jest-vim-reporter'
 endfunction
+
+"K查看cpp文档
+autocmd FileType cpp setlocal keywordprg=cppman
+autocmd Filetype java set makeprg=javac\ %
 
 "
 call plug#begin('~/.vim/plugged')
