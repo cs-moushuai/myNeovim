@@ -2,7 +2,8 @@
 :noh取消高亮(搜索后的)
 <Leader>m 菜单
 <Leader>h 帮助(可修改)
-<Leader>H 帮助
+/*<Leader>H 帮助*/
+<Leader>H 查看snippet文档
 <Leader>t 翻译在命令行
 <Leader>T 翻译带弹窗
 <Leader>r 翻译并替换

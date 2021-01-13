@@ -441,6 +441,9 @@ function! Compile()
     elseif expand("%:e") == "java"
         "AsyncRun javac "$(VIM_FILEPATH)" -d "$(VIM_FILEDIR)/$(VIM_FILENOEXT).class" && java  "$(VIM_FILEDIR)/$(VIM_FILENOEXT)"
         AsyncRun javac % && java -cp %:p:h %:t:r
+    elseif expand("%:e") == "asm"
+        ":call mkdir("build")
+        AsyncRun nasm -f elf "$(VIM_FILEPATH)"  && ld -m elf_i386 -s -o "$(VIM_FILENOEXT)" "$(VIM_FILEDIR)/$(VIM_FILENOEXT).o" && $(VIM_FILEDIR)/$(VIM_FILENOEXT)
         endif
 
 endfunction
@@ -578,7 +581,8 @@ hi def link TranslatorNF                NormalFloat
 hi def link TranslatorBorderNF          NormalFloat
 
 nmap <leader>h :tabnew ~world/.vim/doc/myVimHelp.txt<CR>
-nmap <leader>H :help myVimHelp.txt<CR>
+"nmap <leader>H :help myVimHelp.txt<CR>
+nmap <leader>H :tabnew /data/home/world/.vim/plugged/vim-snippets/snippets/<CR>
 map <C-s> :w<CR>
 nmap <leader>L :tabnew<CR>
 
@@ -870,10 +874,10 @@ endfunction
 
 
 if !exists("g:UltiSnipsJumpForwardTrigger")
-    let g:UltiSnipsJumpForwardTrigger = "<tab>"
+    let g:UltiSnipsJumpForwardTrigger = "<c-n>"
 endif
 if !exists("g:UltiSnipsJumpBackwardTrigger")
-    let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+    let g:UltiSnipsJumpBackwardTrigger="<c-p>"
 endif
 au InsertEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger     . " <C-R>=g:UltiSnips_Complete()<cr>"
 au InsertEnter * exec "inoremap <silent> " .     g:UltiSnipsJumpBackwardTrigger . " <C-R>=g:UltiSnips_Reverse()<cr>"
@@ -889,57 +893,6 @@ au InsertEnter * exec "inoremap <silent> " .     g:UltiSnipsJumpBackwardTrigger 
 "let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 " If you want :UltiSnipsEdit to split your window.
 "let g:UltiSnipsEditSplit="vertical"
-"python的Google规范
-" Copyright 2019 Google LLC
-"
-" Licensed under the Apache License, Version 2.0 (the "License");
-" you may not use this file except in compliance with the License.
-" You may obtain a copy of the License at
-"
-"    https://www.apache.org/licenses/LICENSE-2.0
-"
-" Unless required by applicable law or agreed to in writing, software
-" distributed under the License is distributed on an "AS IS" BASIS,
-" WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-" See the License for the specific language governing permissions and
-" limitations under the License.
-
-" Indent Python in the Google way.
-
-"setlocal indentexpr=GetGooglePythonIndent(v:lnum)
-
-"let s:maxoff = 50 " maximum number of lines to look backwards.
-
-"function GetGooglePythonIndent(lnum)
-
-"" Indent inside parens.
-"" Align with the open paren unless it is at the end of the line.
-"" E.g.
-""   open_paren_not_at_EOL(100,
-""                         (200,
-""                          300),
-""                         400)
-""   open_paren_at_EOL(
-""       100, 200, 300, 400)
-"call cursor(a:lnum, 1)
-"let [par_line, par_col] = searchpairpos('(\|{\|\[', '', ')\|}\|\]', 'bW',
-            "\ "line('.') < " . (a:lnum - s:maxoff) . " ? dummy :"
-            "\ . " synIDattr(synID(line('.'), col('.'), 1), 'name')"
-            "\ . " =~ '\\(Comment\\|String\\)$'")
-"if par_line > 0
-"call cursor(par_line, 1)
-"if par_col != col("$") - 1
-"return par_col
-"endif
-"endif
-
-"" Delegate the rest to the original function.
-"return GetPythonIndent(a:lnum)
-
-"endfunction
-
-"let pyindent_nested_paren="&sw*2"
-"let pyindent_open_paren="&sw*2"
 "
 inoremap <C-j> <esc>I
 inoremap <C-k> <esc>A
@@ -1071,7 +1024,7 @@ endfunction
 autocmd FileType cpp setlocal keywordprg=cppman
 autocmd Filetype java set makeprg=javac\ %
 
-"
+
 call plug#begin('~/.vim/plugged')
 "Fuzzy file
 "Plug 'kien/ctrlp.vim'
