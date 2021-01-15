@@ -1023,7 +1023,11 @@ endfunction
 "K查看cpp文档
 autocmd FileType cpp setlocal keywordprg=cppman
 autocmd Filetype java set makeprg=javac\ %
+"autocmd Filetype md Goyo
 
+
+autocmd! User GoyoEnter Limelight
+autocmd! User GoyoLeave Limelight!
 
 call plug#begin('~/.vim/plugged')
 "Fuzzy file
@@ -1126,7 +1130,7 @@ Plug 'vim-scripts/ScrollColors'
 "vim and tmux motion
 Plug 'christoomey/vim-tmux-navigator'
 "wiki
-Plug 'vimwiki/vimwiki'
+"Plug 'vimwiki/vimwiki'
 "Plug 'tpope/vim-vinegar'
 "open file in right way
 Plug 'EinfachToll/DidYouMean'
@@ -1139,6 +1143,14 @@ Plug 'glts/vim-radical'
 Plug 'ryanoasis/vim-devicons'
 "project manager
 "Plug 'tpope/vim-projectionist'
+"markdown
+Plug 'godlygeek/tabular'
+Plug 'plasticboy/vim-markdown'
+Plug 'junegunn/goyo.vim'
+Plug 'iamcco/mathjax-support-for-mkdp'
+" If you have nodejs and yarn
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
+Plug 'junegunn/limelight.vim'
 call plug#end()
 
 "
