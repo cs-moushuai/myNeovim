@@ -1033,6 +1033,28 @@ autocmd Filetype java set makeprg=javac\ %
 autocmd! User GoyoEnter Limelight
 autocmd! User GoyoLeave Limelight!
 
+nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
+vnoremap <silent> <leader> :<c-u>WhichKeyVisual '<Space>'<CR>
+nnoremap <silent> <localleader> :<c-u>WhichKey  '\'<CR>
+autocmd! FileType which_key
+autocmd  FileType which_key set laststatus=1 noshowmode noruler
+            \| autocmd BufLeave <buffer> set laststatus=2 noshowmode ruler
+set timeoutlen=500
+let g:which_key_hspace = 5
+"let g:which_key_max_size = 5
+"let g:which_key_position = 'topleft'
+"let g:which_key_use_floating_win = 1
+
+highlight default link WhichKey          Function
+highlight default link WhichKeySeperator DiffAdded
+highlight default link WhichKeyGroup     Keyword
+highlight default link WhichKeyDesc      Identifier
+
+highlight default link WhichKeyFloating Pmenu
+
+nnoremap <silent> ] :<c-u>WhichKey ']'<cr>
+nnoremap <silent> [ :<c-u>WhichKey '['<cr>
+
 call plug#begin('~/.vim/plugged')
 "Fuzzy file
 "Plug 'kien/ctrlp.vim'
@@ -1155,6 +1177,7 @@ Plug 'iamcco/mathjax-support-for-mkdp'
 " If you have nodejs and yarn
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 Plug 'junegunn/limelight.vim'
+Plug 'liuchengxu/vim-which-key'
 call plug#end()
 
 "
