@@ -428,10 +428,14 @@ function! Compile()
     exec "w"
     chdir %:h
     if expand("%:e") == "cpp"
-        :call mkdir("build")
+        if !isdirectory("build")
+            :call mkdir("build")
+        endif
         AsyncRun g++ -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/build/$(VIM_FILENOEXT)" && $(VIM_FILEDIR)/build/$(VIM_FILENOEXT)
     elseif expand("%:e") == "c"
-        :call mkdir("build")
+        if !isdirectory("build")
+            :call mkdir("build")
+        endif
         AsyncRun gcc -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/build/$(VIM_FILENOEXT)" && $(VIM_FILEDIR)/build/$(VIM_FILENOEXT)
     elseif expand("%:e") == "sh"
         AsyncRun bash "$(VIM_FILEPATH)"
@@ -444,7 +448,7 @@ function! Compile()
     elseif expand("%:e") == "asm"
         ":call mkdir("build")
         AsyncRun nasm -f elf "$(VIM_FILEPATH)"  && ld -m elf_i386 -s -o "$(VIM_FILENOEXT)" "$(VIM_FILEDIR)/$(VIM_FILENOEXT).o" && $(VIM_FILEDIR)/$(VIM_FILENOEXT)
-        endif
+    endif
 
 endfunction
 
