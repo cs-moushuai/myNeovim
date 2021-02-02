@@ -1026,6 +1026,7 @@ endfunction
 
 "K查看cpp文档
 autocmd FileType cpp setlocal keywordprg=cppman
+autocmd FileType py setlocal keywordprg=pydoc
 autocmd Filetype java set makeprg=javac\ %
 "autocmd Filetype md Goyo
 
@@ -1054,6 +1055,9 @@ highlight default link WhichKeyFloating Pmenu
 
 nnoremap <silent> ] :<c-u>WhichKey ']'<cr>
 nnoremap <silent> [ :<c-u>WhichKey '['<cr>
+
+noremap <c-z> u
+inoremap <c-z> <esc>ua
 
 call plug#begin('~/.vim/plugged')
 "Fuzzy file
@@ -1150,7 +1154,7 @@ Plug 'maximbaz/lightline-ale'
 Plug 'itchyny/vim-gitbranch'
 Plug 'sainnhe/artify.vim'
 "Python ide配置大全
-Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
+"Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
 "check colorscheme
 Plug 'vim-scripts/ScrollColors'
 "vim and tmux motion
