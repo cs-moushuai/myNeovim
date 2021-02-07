@@ -448,6 +448,8 @@ function! Compile()
     elseif expand("%:e") == "asm"
         ":call mkdir("build")
         AsyncRun nasm -f elf "$(VIM_FILEPATH)"  && ld -m elf_i386 -s -o "$(VIM_FILENOEXT)" "$(VIM_FILEDIR)/$(VIM_FILENOEXT).o" && $(VIM_FILEDIR)/$(VIM_FILENOEXT)
+    elseif expand("%:e") == "html"
+        exec "!google-chrome-stable %"
     endif
 
 endfunction
@@ -1182,6 +1184,8 @@ Plug 'iamcco/mathjax-support-for-mkdp'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 Plug 'junegunn/limelight.vim'
 Plug 'liuchengxu/vim-which-key'
+"html
+Plug 'mattn/emmet-vim'
 call plug#end()
 
 "
