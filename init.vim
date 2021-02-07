@@ -410,13 +410,12 @@ function! QuickAbout()
 endfunction
 
 " 设置 F10 打开/关闭 Quickfix 窗口
+nnoremap <silent> <F2> :colder<cr>
+nnoremap <silent> <F3> :cnewer<cr>
+nnoremap <silent> <F6> :call Compile()<cr>
+nnoremap <silent> <F7> :call Run()<cr>
 nnoremap <silent> <F8> :call QuickAbout()<cr>
-
-nnoremap <silent> <F2> :call OnlyCompile()<cr>
-nnoremap <silent> <F3> :call OnlyRun()<cr>
-nnoremap <silent> <F9> :call Compile()<cr>
-nnoremap <silent> <F6> :colder<cr>
-nnoremap <silent> <F7> :cnewer<cr>
+nnoremap <silent> <F9> :call CompileAndRun()<cr>
 
 "nnoremap <silent> <F10> :AsyncRun -raw -cwd=$(VIM_FILEDIR) "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <cr>
 function RunPython()
@@ -426,7 +425,7 @@ function RunPython()
     setlocal makeprg=python \-u
     set efm=%C\ %.%#,%A\ \
 endfunction
-function! Compile()
+function! CompileAndRun()
     exec "w"
     chdir %:h
     if expand("%:e") == "cpp"
@@ -455,7 +454,7 @@ function! Compile()
     endif
 endfunction
 
-function! OnlyCompile()
+function! Compile()
     exec "w"
     chdir %:h
     if expand("%:e") == "cpp"
@@ -477,7 +476,7 @@ function! OnlyCompile()
     endif
 endfunction
 
-function! OnlyRun()
+function! Run()
     chdir %:h
     if expand("%:e") == "cpp"
         AsyncRun $(VIM_FILEDIR)/build/$(VIM_FILENOEXT)
