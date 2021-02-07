@@ -412,6 +412,8 @@ endfunction
 " 设置 F10 打开/关闭 Quickfix 窗口
 nnoremap <silent> <F8> :call QuickAbout()<cr>
 
+nnoremap <silent> <F2> :call OnlyCompile()<cr>
+nnoremap <silent> <F3> :call OnlyRun()<cr>
 nnoremap <silent> <F9> :call Compile()<cr>
 nnoremap <silent> <F6> :colder<cr>
 nnoremap <silent> <F7> :cnewer<cr>
@@ -451,7 +453,50 @@ function! Compile()
     elseif expand("%:e") == "html"
         exec "!google-chrome-stable %"
     endif
+endfunction
 
+function! OnlyCompile()
+    exec "w"
+    chdir %:h
+    if expand("%:e") == "cpp"
+        if !isdirectory("build")
+            :call mkdir("build")
+        endif
+        AsyncRun g++ -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/build/$(VIM_FILENOEXT)"
+    elseif expand("%:e") == "c"
+        if !isdirectory("build")
+            :call mkdir("build")
+        endif
+        AsyncRun gcc -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/build/$(VIM_FILENOEXT)"
+    elseif expand("%:e") == "java"
+        "AsyncRun javac "$(VIM_FILEPATH)" -d "$(VIM_FILEDIR)/$(VIM_FILENOEXT).class"
+        AsyncRun javac %
+    elseif expand("%:e") == "asm"
+        ":call mkdir("build")
+        AsyncRun nasm -f elf "$(VIM_FILEPATH)"  && ld -m elf_i386 -s -o "$(VIM_FILENOEXT)" "$(VIM_FILEDIR)/$(VIM_FILENOEXT).o"
+    endif
+endfunction
+
+function! OnlyRun()
+    chdir %:h
+    if expand("%:e") == "cpp"
+        AsyncRun $(VIM_FILEDIR)/build/$(VIM_FILENOEXT)
+    elseif expand("%:e") == "c"
+        AsyncRun $(VIM_FILEDIR)/build/$(VIM_FILENOEXT)
+    elseif expand("%:e") == "sh"
+        AsyncRun bash "$(VIM_FILEPATH)"
+    elseif expand("%:e") == "py"
+        AsyncRun python3 "$(VIM_FILEPATH)"
+        ":PymodeRun
+    elseif expand("%:e") == "java"
+        "java  "$(VIM_FILEDIR)/$(VIM_FILENOEXT)"
+        AsyncRun java -cp %:p:h %:t:r
+    elseif expand("%:e") == "asm"
+        ":call mkdir("build")
+        AsyncRun $(VIM_FILEDIR)/$(VIM_FILENOEXT)
+    elseif expand("%:e") == "html"
+        exec "!google-chrome-stable %"
+    endif
 endfunction
 
 "ale
