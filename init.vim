@@ -540,6 +540,8 @@ noremap <c-z> <NOP>
 let g:ycm_semantic_triggers =  {
             \ 'c,cpp,python,java,go,erlang,perl': ['re!\w{2}'],
             \ 'cs,lua,javascript': ['re!\w{2}'],
+            \   'css': [ 're!^\s{4}', 're!:\s+'],
+            \   'html': [ '</' ],
             \ }
 let g:ycm_filetype_whitelist = {
             \ "c":1,
@@ -550,6 +552,8 @@ let g:ycm_filetype_whitelist = {
             \ "zimbu":1,
             \ "python":1,
             \ "java":1,
+            \ "html":1,
+            \ "css":1,
             \ }
 set noshowmode
 
