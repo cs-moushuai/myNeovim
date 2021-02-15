@@ -554,6 +554,8 @@ let g:ycm_filetype_whitelist = {
             \ "java":1,
             \ "html":1,
             \ "css":1,
+            \ "javascript":1,
+            \ "vim":1,
             \ }
 set noshowmode
 
@@ -574,11 +576,11 @@ au GuiEnter * set t_vb=
 "let g:vimspector_enable_mappings = 'VISUAL_STUDIO'
 "
 function! DebugProfile()
-    if &filetype == cpp
+    if &filetype == 'cpp'
         exec "!cp ~world/.vim/debug_profile/cpp/.vimspector.json %:h"
-    elif &filetype == py
-    exec "!cp ~world/.vim/debug_profile/python/.vimspector.json %:h"
-endif
+    elseif &filetype == 'py'
+        exec "!cp ~world/.vim/debug_profile/python/.vimspector.json %:h"
+    endif
 endfunction
 
 nnoremap <leader>5 :call vimspector#Continue()<cr>
@@ -1108,6 +1110,9 @@ nnoremap <silent> [ :<c-u>WhichKey '['<cr>
 
 noremap <c-z> u
 inoremap <c-z> <esc>ua
+let g:javascript_plugin_jsdoc = 1
+let g:javascript_plugin_ngdoc = 1
+let g:javascript_plugin_flow = 1
 
 call plug#begin('~/.vim/plugged')
 "Fuzzy file
@@ -1234,6 +1239,8 @@ Plug 'junegunn/limelight.vim'
 Plug 'liuchengxu/vim-which-key'
 "html
 Plug 'mattn/emmet-vim'
+"javascript
+Plug 'pangloss/vim-javascript'
 call plug#end()
 
 "
@@ -1248,4 +1255,3 @@ call defx#custom#option('_', {
             \     '.mypy_cache,.pytest_cache,.git,.hg,.svn,.stversions'
             \   . ',__pycache__,.sass-cache,*.egg-info,.DS_Store,*.pyc,*.swp'
             \ })
-
