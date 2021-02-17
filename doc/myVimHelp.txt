@@ -53,6 +53,7 @@ yy 输出当前光标所在的路径
 <F7>运行
 <F8>打开命令提示
 <F9>编译运行cpp, c, sh, python语言
+<C-M-n>编译运行cpp, c, sh, python语言
 <F11>全屏
 <C-M-i> 格式化代码
 

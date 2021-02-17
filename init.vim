@@ -416,6 +416,7 @@ nnoremap <silent> <F6> :call Compile()<cr>
 nnoremap <silent> <F7> :call Run()<cr>
 nnoremap <silent> <F8> :call QuickAbout()<cr>
 nnoremap <silent> <F9> :call CompileAndRun()<cr>
+nnoremap <silent> <c-m-n> :call CompileAndRun()<cr>
 
 "nnoremap <silent> <F10> :AsyncRun -raw -cwd=$(VIM_FILEDIR) "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <cr>
 function RunPython()
@@ -1241,6 +1242,9 @@ Plug 'liuchengxu/vim-which-key'
 Plug 'mattn/emmet-vim'
 "javascript
 Plug 'pangloss/vim-javascript'
+"preview css color
+Plug 'ap/vim-css-color'
+"Plug 'hail2u/vim-css3-syntax'
 call plug#end()
 
 "
