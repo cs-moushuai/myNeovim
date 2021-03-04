@@ -519,6 +519,15 @@ nmap sn <Plug>(ale_next_wrap)
 nmap <Leader>s :ALEToggle<CR>
 "<Leader>d查看错误或警告的详细信息
 nmap <Leader>d :ALEDetail<CR>
+let g:ale_linters = {
+            \   'css': ['prettier'],
+            \   'html': ['tidy'],
+            \   'javascript': ['eslint'],
+            \   'php': [''],
+            \   'python': ['flake8'],
+            \}
+
+
 let g:ycm_global_ycm_extra_conf = '~/.vim/plugged/youcompleteme/cpp/ycm/.ycm_extra_conf.py'
 "設定跳轉的快捷鍵，可以跳轉到definition和declaration
 nnoremap <leader>gc :YcmCompleter GoToDeclaration<CR>
@@ -544,19 +553,60 @@ let g:ycm_semantic_triggers =  {
             \   'css': [ 're!^\s{4}', 're!:\s+'],
             \   'html': [ '</' ],
             \ }
+
 let g:ycm_filetype_whitelist = {
-            \ "c":1,
-            \ "cpp":1,
-            \ "objc":1,
-            \ "sh":1,
-            \ "zsh":1,
-            \ "zimbu":1,
-            \ "python":1,
-            \ "java":1,
-            \ "html":1,
-            \ "css":1,
-            \ "javascript":1,
-            \ "vim":1,
+            \ 'c':1,
+            \ 'cpp':1,
+            \ 'objc':1,
+            \ 'objcpp':1,
+            \ 'python':1,
+            \ 'java':1,
+            \ 'javascript':1,
+            \ 'coffee':1,
+            \ 'vim':1,
+            \ 'go':1,
+            \ 'cs':1,
+            \ 'lua':1,
+            \ 'perl':1,
+            \ 'perl6':1,
+            \ 'php':1,
+            \ 'ruby':1,
+            \ 'rust':1,
+            \ 'erlang':1,
+            \ 'asm':1,
+            \ 'nasm':1,
+            \ 'masm':1,
+            \ 'tasm':1,
+            \ 'asm68k':1,
+            \ 'asmh8300':1,
+            \ 'asciidoc':1,
+            \ 'basic':1,
+            \ 'vb':1,
+            \ 'make':1,
+            \ 'cmake':1,
+            \ 'html':1,
+            \ 'css':1,
+            \ 'less':1,
+            \ 'json':1,
+            \ 'cson':1,
+            \ 'typedscript':1,
+            \ 'haskell':1,
+            \ 'lhaskell':1,
+            \ 'lisp':1,
+            \ 'scheme':1,
+            \ 'sdl':1,
+            \ 'sh':1,
+            \ 'zsh':1,
+            \ 'bash':1,
+            \ 'man':1,
+            \ 'markdown':1,
+            \ 'matlab':1,
+            \ 'maxima':1,
+            \ 'dosini':1,
+            \ 'conf':1,
+            \ 'config':1,
+            \ 'zimbu':1,
+            \ 'ps1':1,
             \ }
 set noshowmode
 
@@ -639,7 +689,7 @@ hi def link TranslatorBorderNF          NormalFloat
 
 nmap <leader>h :tabnew ~world/.vim/doc/myVimHelp.txt<CR>
 "nmap <leader>H :help myVimHelp.txt<CR>
-nmap <leader>H :tabnew /data/home/world/.vim/plugged/vim-snippets/snippets/<CR>
+nmap <leader>H :tabnew /data/home/world/.vim/plugged/vim-snippets/UltiSnips/<CR>
 map <C-s> :w<CR>
 nmap <leader>L :tabnew<CR>
 
@@ -1115,6 +1165,8 @@ let g:javascript_plugin_jsdoc = 1
 let g:javascript_plugin_ngdoc = 1
 let g:javascript_plugin_flow = 1
 
+let g:html_indent_style1 = "inc"
+
 call plug#begin('~/.vim/plugged')
 "Fuzzy file
 "Plug 'kien/ctrlp.vim'
@@ -1244,7 +1296,7 @@ Plug 'mattn/emmet-vim'
 Plug 'pangloss/vim-javascript'
 "preview css color
 Plug 'ap/vim-css-color'
-"Plug 'hail2u/vim-css3-syntax'
+Plug 'hail2u/vim-css3-syntax'
 call plug#end()
 
 "
