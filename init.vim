@@ -433,7 +433,7 @@ function! CompileAndRun()
         if !isdirectory("build")
             :call mkdir("build")
         endif
-        AsyncRun g++ -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/build/$(VIM_FILENOEXT)" && $(VIM_FILEDIR)/build/$(VIM_FILENOEXT)
+        AsyncRun g++ -Wall -std=c++11 -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/build/$(VIM_FILENOEXT)" && $(VIM_FILEDIR)/build/$(VIM_FILENOEXT)
     elseif expand("%:e") == "c"
         if !isdirectory("build")
             :call mkdir("build")
@@ -462,7 +462,7 @@ function! Compile()
         if !isdirectory("build")
             :call mkdir("build")
         endif
-        AsyncRun g++ -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/build/$(VIM_FILENOEXT)"
+        AsyncRun g++ -Wall -std=c++11 -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/build/$(VIM_FILENOEXT)"
     elseif expand("%:e") == "c"
         if !isdirectory("build")
             :call mkdir("build")
@@ -528,7 +528,7 @@ let g:ale_linters = {
             \}
 
 
-let g:ycm_global_ycm_extra_conf = '~/.vim/plugged/youcompleteme/cpp/ycm/.ycm_extra_conf.py'
+let g:ycm_global_ycm_extra_conf = '~/.vim/plugged/youcompleteme/third_party/ycmd/.ycm_extra_conf.py'
 "設定跳轉的快捷鍵，可以跳轉到definition和declaration
 nnoremap <leader>gc :YcmCompleter GoToDeclaration<CR>
 nnoremap <leader>gf :YcmCompleter GoToDefinition<CR>
@@ -644,7 +644,7 @@ nnoremap <leader>8 :call vimspector#AddFunctionBreakpoint( '<cexpr' )<cr>
 nnoremap <leader>0 :call vimspector#StepOver()<cr>
 nnoremap <leader>1 :call vimspector#StepInto()<cr>
 nnoremap <leader>2 :call vimspector#StepOut()<cr>
-nnoremap <leader>- :!g++ -g %<cr><cr>
+nnoremap <leader>- :!g++ -std=c++11 -g %<cr><cr>
 nnoremap <leader>= :call DebugProfile()<cr>
 
 
