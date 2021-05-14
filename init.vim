@@ -433,7 +433,7 @@ function! CompileAndRun()
         if !isdirectory("build")
             :call mkdir("build")
         endif
-        AsyncRun g++ -Wall -std=c++11 -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/build/$(VIM_FILENOEXT)" && $(VIM_FILEDIR)/build/$(VIM_FILENOEXT)
+        AsyncRun g++ -Wall -std=c++17 -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/build/$(VIM_FILENOEXT)" && $(VIM_FILEDIR)/build/$(VIM_FILENOEXT)
     elseif expand("%:e") == "c"
         if !isdirectory("build")
             :call mkdir("build")
@@ -452,6 +452,9 @@ function! CompileAndRun()
         AsyncRun nasm -f elf "$(VIM_FILEPATH)"  && ld -m elf_i386 -s -o "$(VIM_FILENOEXT)" "$(VIM_FILEDIR)/$(VIM_FILENOEXT).o" && $(VIM_FILEDIR)/$(VIM_FILENOEXT)
     elseif expand("%:e") == "html"
         exec "!google-chrome-stable %"
+    elseif expand("%:e") == "js"
+        ":call mkdir("build")
+        AsyncRun node "$(VIM_FILEPATH)"
     endif
 endfunction
 
@@ -462,7 +465,7 @@ function! Compile()
         if !isdirectory("build")
             :call mkdir("build")
         endif
-        AsyncRun g++ -Wall -std=c++11 -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/build/$(VIM_FILENOEXT)"
+        AsyncRun g++ -Wall -std=c++17 -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/build/$(VIM_FILENOEXT)"
     elseif expand("%:e") == "c"
         if !isdirectory("build")
             :call mkdir("build")
@@ -644,7 +647,7 @@ nnoremap <leader>8 :call vimspector#AddFunctionBreakpoint( '<cexpr' )<cr>
 nnoremap <leader>0 :call vimspector#StepOver()<cr>
 nnoremap <leader>1 :call vimspector#StepInto()<cr>
 nnoremap <leader>2 :call vimspector#StepOut()<cr>
-nnoremap <leader>- :!g++ -std=c++11 -g %<cr><cr>
+nnoremap <leader>- :!g++ -std=c++17 -g %<cr><cr>
 nnoremap <leader>= :call DebugProfile()<cr>
 
 
