@@ -693,12 +693,12 @@ hi def link TranslatorBorderNF          NormalFloat
 nmap <leader>h :tabnew ~world/.vim/doc/myVimHelp.txt<CR>
 "nmap <leader>H :help myVimHelp.txt<CR>
 nmap <leader>H :tabnew /data/home/world/.vim/plugged/vim-snippets/UltiSnips/<CR>
-map <C-s> :w<CR>
+map <D-s> :w<CR>
 nmap <leader>L :tabnew<CR>
 
 "C-M-i自动格式化代码
 noremap <C-M-i> :Autoformat<CR>
-"let g:autoformat_verbosemode=1
+let g:autoformat_verbosemode=1
 "我比较喜欢 google 风格的代码
 "let g:formatdef_clangformat_google = '"clang-format -style=Google"'
 "let g:formatters_c = ['clangformat_google']
